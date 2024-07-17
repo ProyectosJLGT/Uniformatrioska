@@ -7,19 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="login-container">
-        <h2>Iniciar Sesión</h2>
-        <input type="text" id="user-id" placeholder="ID">
-        <input type="password" id="password" placeholder="Contraseña">
-        <button onclick="login()">Iniciar Sesión</button>
-    </div>
-
-    <div id="main-container" style="display:none;">
+    <div id="main-container">
         <nav class="navbar">
             <div class="logo">Logo</div>
             <div class="user-info">
                 <span id="username">Nombre del Usuario</span>
-                <span id="login-time"></span>
             </div>
             <div class="nav-actions">
                 <select id="activity-list">
@@ -35,12 +27,13 @@
         <div class="content">
             <button id="action-button" onclick="startTimer()">Presionar</button>
             <div id="timer">00:00:00</div>
+            <div id="login-time" class="small-text"></div>
         </div>
         <div id="activity-log-container">
             <ul id="activity-log"></ul>
         </div>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

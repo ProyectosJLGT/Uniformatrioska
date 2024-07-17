@@ -66,11 +66,6 @@ body {
     font-size: 14px;
 }
 
-#login-time {
-    display: block;
-    font-size: 12px;
-}
-
 .nav-actions {
     display: flex;
     align-items: center;
@@ -101,6 +96,12 @@ body {
 
 #timer {
     font-size: 24px;
+    margin-top: 10px;
+}
+
+#login-time {
+    font-size: 12px;
+    color: #666;
     margin-top: 10px;
 }
 
