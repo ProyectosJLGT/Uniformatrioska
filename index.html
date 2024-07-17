@@ -15,17 +15,23 @@
     </div>
 
     <div id="main-container" style="display:none;">
-        <div class="header">
-            <h2 id="username">Nombre del Usuario</h2>
-            <select id="activity-list">
-                <option value="Dotación 1">Dotación 1</option>
-                <option value="Dotación 2">Dotación 2</option>
-                <option value="Dotación 3">Dotación 3</option>
-                <option value="Almuerzo">Almuerzo</option>
-                <option value="Breack">Breack</option>
-            </select>
-            <button onclick="logout()">Cerrar Sesión</button>
-        </div>
+        <nav class="navbar">
+            <div class="logo">Logo</div>
+            <div class="user-info">
+                <span id="username">Nombre del Usuario</span>
+                <span id="login-time"></span>
+            </div>
+            <div class="nav-actions">
+                <select id="activity-list">
+                    <option value="Dotación 1">Dotación 1</option>
+                    <option value="Dotación 2">Dotación 2</option>
+                    <option value="Dotación 3">Dotación 3</option>
+                    <option value="Almuerzo">Almuerzo</option>
+                    <option value="Breack">Breack</option>
+                </select>
+                <button onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </nav>
         <div class="content">
             <button id="action-button" onclick="startTimer()">Presionar</button>
             <div id="timer">00:00:00</div>

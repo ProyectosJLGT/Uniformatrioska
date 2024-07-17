@@ -41,6 +41,9 @@ function login() {
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('main-container').style.display = 'block';
         document.getElementById('username').textContent = userId;
+        const now = new Date();
+        const loginTime = now.toLocaleTimeString();
+        document.getElementById('login-time').textContent = `Inicio sesión: ${loginTime}`;
     } else {
         alert('Por favor, ingrese ID y contraseña');
     }
