@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Actividades</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-container">
+        <h2>Iniciar Sesión</h2>
+        <input type="text" id="user-id" placeholder="ID">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()">Iniciar Sesión</button>
+    </div>
+
+    <div id="main-container" style="display:none;">
+        <div class="header">
+            <h2 id="username">Nombre del Usuario</h2>
+            <select id="activity-list">
+                <option value="Dotación 1">Dotación 1</option>
+                <option value="Dotación 2">Dotación 2</option>
+                <option value="Dotación 3">Dotación 3</option>
+                <option value="Almuerzo">Almuerzo</option>
+                <option value="Breack">Breack</option>
+            </select>
+            <button onclick="logout()">Cerrar Sesión</button>
+        </div>
+        <div class="content">
+            <button id="action-button" onclick="startTimer()">Presionar</button>
+            <div id="timer">00:00:00</div>
+        </div>
+        <div id="activity-log-container">
+            <ul id="activity-log"></ul>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
