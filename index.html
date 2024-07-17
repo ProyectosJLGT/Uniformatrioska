@@ -9,11 +9,46 @@
 <body>
     <div id="login-container">
         <h2>Iniciar Sesión</h2>
-        <input type="text" id="user-id" placeholder="ID">
-        <input type="password" id="password" placeholder="Contraseña">
-        <button onclick="login()">Iniciar Sesión</button>
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <input type="text" id="id" placeholder="ID" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
     </div>
 
-    <script src="login.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw9_G28D3x-DnW3rykgWPMQLLDJ-PnaTJQSLiG8f289ISuV3o3ka-8Ui0g5PZGwb38/exec'; // Reemplaza con tu URL del script de Google Apps
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('id').value;
+            const password = document.getElementById('password').value;
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'action': 'authenticate',
+                    'id': id,
+                    'password': password
+                })
+            }).then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    const username = result.userName;
+                    const loginTime = new Date().toLocaleString();
+
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('loginTime', loginTime);
+
+                    window.location.href = 'main.html';
+                } else {
+                    alert('ID o contraseña incorrecta.');
+                }
+            }).catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 </html>

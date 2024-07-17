@@ -1,2 +1,0 @@
-# Uniformatrioska
-ProyectoUniformatrioska

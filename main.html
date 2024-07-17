@@ -26,14 +26,121 @@
         </nav>
         <div class="content">
             <button id="action-button" onclick="startTimer()">Presionar</button>
-            <div id="timer">00:00:00</div>
             <div id="login-time" class="small-text"></div>
+            <div id="current-clock" class="large-clock"></div>
         </div>
         <div id="activity-log-container">
             <ul id="activity-log"></ul>
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw9_G28D3x-DnW3rykgWPMQLLDJ-PnaTJQSLiG8f289ISuV3o3ka-8Ui0g5PZGwb38/exec'; // Reemplaza con tu URL del script de Google Apps
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const username = localStorage.getItem('username');
+            const loginTime = localStorage.getItem('loginTime');
+
+            if (username && loginTime) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('login-time').textContent = `Inicio sesión: ${loginTime}`;
+            } else {
+                window.location.href = 'index.html';
+            }
+
+            updateClock();
+            setInterval(updateClock, 1000); // Actualizar el reloj cada segundo
+        });
+
+        let previousTime = null;
+
+        function startTimer() {
+            const currentActivity = document.getElementById('activity-list').value;
+            const now = new Date();
+            const currentTime = formatTime(now);
+            const currentDate = formatDate(now);
+
+            logActivity(currentTime, currentDate, currentActivity);
+        }
+
+        function formatTime(date) {
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // La hora '0' debe ser '12'
+            return `${pad(hours)}:${pad(minutes)}:${pad(seconds)} ${ampm}`;
+        }
+
+        function formatDate(date) {
+            const day = pad(date.getDate());
+            const month = pad(date.getMonth() + 1);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function pad(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        function logActivity(time, date, activity) {
+            const now = new Date();
+            const currentTime = now.toISOString();
+            let timeDifference = '';
+
+            if (previousTime) {
+                const diff = Math.abs(now - previousTime);
+                const minutes = Math.floor(diff / 1000 / 60);
+                timeDifference = `${minutes}`;
+            } else {
+                previousTime = now;
+                timeDifference = '0';
+            }
+
+            previousTime = now;
+
+            const startTime = formatTime(previousTime);
+            const endTime = formatTime(now);
+
+            const username = localStorage.getItem('username');
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'action': 'logActivity',
+                    'user': username,
+                    'activity': activity,
+                    'startTime': startTime,
+                    'endTime': endTime,
+                    'elapsedTime': timeDifference
+                })
+            }).then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    const log = document.getElementById('activity-log');
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${formatTime(now)} ${formatDate(now)} - ${activity} (${timeDifference} min)`;
+                    log.prepend(listItem);
+                } else {
+                    console.error('Error logging activity:', result.message);
+                }
+            }).catch(error => console.error('Error:', error));
+        }
+
+        function logout() {
+            localStorage.removeItem('username');
+            localStorage.removeItem('loginTime');
+            window.location.href = 'index.html';
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const currentTime = formatTime(now);
+            document.getElementById('current-clock').textContent = currentTime;
+        }
+    </script>
 </body>
 </html>
