@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('username').textContent = username;
         document.getElementById('login-time').textContent = `Inicio sesión: ${loginTime}`;
     } else {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 });
 
@@ -48,5 +48,5 @@ function logActivity(time, activity) {
 function logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('loginTime');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
