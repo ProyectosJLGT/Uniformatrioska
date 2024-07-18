@@ -8,15 +8,18 @@
 </head>
 <body style="background-image: url(IMG/FondoUniM.jpg);">
     
-    <div id="login-container" style="opacity: 95%;">
-        <div><img src="IMG/logoUniM.png" alt=""></div>
-        <h2>Iniciar Sesión</h2>
-        <form id="login-form" onsubmit="handleLogin(event)">
-            <input type="text" id="id" placeholder="ID" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
+    <div   class="container">
+        <div id="login-container" style="opacity: 95%;">
+            <div><img src="IMG/logoUniM.png" alt=""></div>
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <input type="text" id="id" placeholder="ID" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
     </div>
+    
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw9_G28D3x-DnW3rykgWPMQLLDJ-PnaTJQSLiG8f289ISuV3o3ka-8Ui0g5PZGwb38/exec'; // Reemplaza con tu URL del script de Google Apps
