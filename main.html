@@ -25,7 +25,7 @@
             </div>
         </nav>
         <div class="content">
-            <button id="action-button" onclick="startTimer()">Presionar</button>
+            <button id="action-button" onclick="confirmActivityChange()">Presionar</button>
             <div id="login-time" class="small-text"></div>
             <div id="current-clock" class="large-clock"></div>
         </div>
@@ -36,6 +36,7 @@
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw9_G28D3x-DnW3rykgWPMQLLDJ-PnaTJQSLiG8f289ISuV3o3ka-8Ui0g5PZGwb38/exec'; // Reemplaza con tu URL del script de Google Apps
+        let previousActivityTime = null;
 
         document.addEventListener('DOMContentLoaded', (event) => {
             const username = localStorage.getItem('username');
@@ -52,7 +53,11 @@
             setInterval(updateClock, 1000); // Actualizar el reloj cada segundo
         });
 
-        let previousTime = null;
+        function confirmActivityChange() {
+            if (confirm("¿Desea finalizar actividad actual e iniciar una actividad nueva?")) {
+                startTimer();
+            }
+        }
 
         function startTimer() {
             const currentActivity = document.getElementById('activity-list').value;
@@ -86,28 +91,26 @@
 
         function logActivity(time, date, activity) {
             const now = new Date();
-            const currentTime = now.toISOString();
+            let startTime = '';
             let timeDifference = '';
 
-            if (previousTime) {
-                const diff = Math.abs(now - previousTime);
+            if (previousActivityTime) {
+                startTime = formatTime(previousActivityTime);
+                const diff = Math.abs(now - previousActivityTime);
                 const minutes = Math.floor(diff / 1000 / 60);
                 timeDifference = `${minutes}`;
             } else {
-                previousTime = now;
+                startTime = formatTime(now);
                 timeDifference = '0';
             }
 
-            previousTime = now;
+            previousActivityTime = now;
 
-            const startTime = formatTime(previousTime);
             const endTime = formatTime(now);
-
             const username = localStorage.getItem('username');
 
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'cors',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({
                     'action': 'logActivity',
@@ -122,7 +125,7 @@
                 if (result.status === 'success') {
                     const log = document.getElementById('activity-log');
                     const listItem = document.createElement('li');
-                    listItem.textContent = `${formatTime(now)} ${formatDate(now)} - ${activity} (${timeDifference} min)`;
+                    listItem.textContent = `${startTime} ${formatDate(now)} - ${activity} (${timeDifference} min)`;
                     log.prepend(listItem);
                 } else {
                     console.error('Error logging activity:', result.message);

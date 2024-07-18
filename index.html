@@ -27,7 +27,6 @@
 
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'cors',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({
                     'action': 'authenticate',
@@ -47,7 +46,10 @@
                 } else {
                     alert('ID o contraseña incorrecta.');
                 }
-            }).catch(error => console.error('Error:', error));
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Error al iniciar sesión. Por favor, intente nuevamente.');
+            });
         }
     </script>
 </body>

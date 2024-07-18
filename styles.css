@@ -77,11 +77,9 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
 }
 
-.small-text {
-    font-size: 0.8em;
+#login-time {
     margin-top: 10px;
 }
 
@@ -90,8 +88,13 @@ button:hover {
     margin-bottom: 10px;
 }
 
+.small-text {
+    font-size: 0.8em;
+    color: gray;
+}
+
 #activity-log-container {
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
     background-color: #f9f9f9;
     padding: 10px;
