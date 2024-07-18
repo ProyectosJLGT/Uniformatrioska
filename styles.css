@@ -36,13 +36,13 @@ button {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #502364;
     color: white;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #26486d;
 }
 
 .navbar {
@@ -50,7 +50,7 @@ button:hover {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #ffa6007e;
     color: white;
     margin-bottom: 20px;
 }
@@ -110,3 +110,11 @@ button:hover {
 #activity-log li {
     margin-bottom: 5px;
 }
+
+#logo {
+    width: 150px;
+    height: 150px;
+}
+
+/* PRUEBA BOTON DE ACCION*/
+
