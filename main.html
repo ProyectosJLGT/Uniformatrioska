@@ -34,10 +34,16 @@
         <div id="activity-log-container">
             <ul id="activity-log"></ul>
         </div>
+        <div class="content">
+            <h2>Tareas Asignadas</h2>
+            <div id="assigned-tasks-container">
+                <ul id="assigned-tasks"></ul>
+            </div>
+        </div>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw9_G28D3x-DnW3rykgWPMQLLDJ-PnaTJQSLiG8f289ISuV3o3ka-8Ui0g5PZGwb38/exec'; // Reemplaza con tu URL del script de Google Apps
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxGcfxzj9Y8csAN9E9Rx6o2AVOs4vKb8Ji87oPy8vSSnlArkv9yCBYFvEd-CFXqtXY/exec';
         let previousActivityTime = null;
 
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -47,6 +53,7 @@
             if (username && loginTime) {
                 document.getElementById('username').textContent = username;
                 document.getElementById('login-time').textContent = `Inicio sesión: ${loginTime}`;
+                loadAssignedTasks(username);
             } else {
                 window.location.href = 'index.html';
             }
@@ -135,9 +142,34 @@
             }).catch(error => console.error('Error:', error));
         }
 
+        function loadAssignedTasks(username) {
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'action': 'getAssignedTasks',
+                    'operario': username
+                })
+            }).then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    const tasksContainer = document.getElementById('assigned-tasks');
+                    tasksContainer.innerHTML = '';
+                    result.tasks.forEach(task => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Tarea: ${task.tarea}, Cantidad: ${task.cantidad}, Asignado por: ${task.jefe}`;
+                        tasksContainer.appendChild(listItem);
+                    });
+                } else {
+                    console.error('Error loading tasks:', result.message);
+                }
+            }).catch(error => console.error('Error:', error));
+        }
+
         function logout() {
             localStorage.removeItem('username');
             localStorage.removeItem('loginTime');
+            localStorage.removeItem('role');
             window.location.href = 'index.html';
         }
 
